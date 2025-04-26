@@ -20,12 +20,23 @@
 </head>
 <body>
 
-<video src="https://raw.githubusercontent.com/ThomandDorothyWedding/Wedding/3bc09005e1d76178ec385e88f0a2b46c82e8fee4/vidv1.mp4" 
-       autoplay 
-       muted 
-       playsinline
-       onended="this.pause(); this.currentTime = this.duration;">
-</video>
+<video id="myVideo"
+  src="https://raw.githubusercontent.com/ThomandDorothyWedding/Wedding/3bc09005e1d76178ec385e88f0a2b46c82e8fee4/vidv1.mp4"
+  muted
+  playsinline
+></video>
+
+<script>
+  const vid = document.getElementById('myVideo');
+
+  function tryPlay() {
+    vid.play().catch(() => {
+      // If it still doesn't autoplay, maybe user interaction needed
+    });
+  }
+
+  window.addEventListener('load', tryPlay);
+</script>
 
 </body>
 </html>
