@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fullscreen Video</title>
+  <title>Fullscreen GIF</title>
   <style>
     html, body {
       margin: 0;
@@ -11,7 +11,7 @@
       background: black;
       overflow: hidden;
     }
-    video {
+    img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -20,23 +20,7 @@
 </head>
 <body>
 
-<video id="myVideo"
-  src="https://raw.githubusercontent.com/ThomandDorothyWedding/Wedding/3bc09005e1d76178ec385e88f0a2b46c82e8fee4/vidv1.mp4"
-  muted
-  playsinline
-></video>
-
-<script>
-  const vid = document.getElementById('myVideo');
-
-  function tryPlay() {
-    vid.play().catch(() => {
-      // If it still doesn't autoplay, maybe user interaction needed
-    });
-  }
-
-  window.addEventListener('load', tryPlay);
-</script>
+<img src="https://github.com/ThomandDorothyWedding/Wedding/blob/main/ezgif-177d403f620e94.gif?raw=true" alt="Fullscreen GIF">
 
 </body>
 </html>
