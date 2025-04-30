@@ -1,17 +1,112 @@
 <style>
   body {
-    background: black;
     margin: 0;
+    background: black;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .hotspot-link {
+    position: absolute;
+    z-index: 10;
+    display: block;
+    cursor: pointer;
   }
 </style>
 
-<video 
-  autoplay 
-  muted 
-  playsinline 
-  onended="this.pause(); this.currentTime = this.duration;" 
-  style="width: 100%; height: 100vh; object-fit: contain;"
->
-  <source src="https://github.com/ThomandDorothyWedding/Wedding/raw/refs/heads/main/Cardv20001-0360.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div class="video-container">
+  <div class="video-wrapper" id="video-wrapper">
+    <video
+      autoplay
+      muted
+      playsinline
+      onended="this.pause(); this.currentTime = this.duration;"
+      id="video"
+    >
+      <source src="https://github.com/ThomandDorothyWedding/Wedding/raw/refs/heads/main/Cardv20001-0360.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<script>
+  const originalWidth = 1080;
+  const originalHeight = 1920;
+  const coords = [203, 1154, 875, 1665]; // x1, y1, x2, y2
+  const href = "https://github.com/ThomandDorothyWedding";
+
+  function updateHotspot() {
+    const video = document.getElementById("video");
+    const wrapper = document.getElementById("video-wrapper");
+
+    const videoRect = video.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+
+    // Calculate actual video display size and offsets due to object-fit: contain
+    const videoRatio = originalWidth / originalHeight;
+    const containerRatio = wrapperRect.width / wrapperRect.height;
+
+    let displayWidth, displayHeight;
+    if (containerRatio > videoRatio) {
+      displayHeight = wrapperRect.height;
+      displayWidth = displayHeight * videoRatio;
+    } else {
+      displayWidth = wrapperRect.width;
+      displayHeight = displayWidth / videoRatio;
+    }
+
+    const offsetX = (wrapperRect.width - displayWidth) / 2;
+    const offsetY = (wrapperRect.height - displayHeight) / 2;
+
+    const scaleX = displayWidth / originalWidth;
+    const scaleY = displayHeight / originalHeight;
+
+    const [x1, y1, x2, y2] = coords;
+
+    const left = x1 * scaleX + offsetX;
+    const top = y1 * scaleY + offsetY;
+    const width = (x2 - x1) * scaleX;
+    const height = (y2 - y1) * scaleY;
+
+    let link = document.querySelector(".hotspot-link");
+    if (!link) {
+      link = document.createElement("a");
+      link.className = "hotspot-link";
+      link.href = href;
+      link.target = "_blank";
+      link.title = "Contact Form";
+      wrapper.appendChild(link);
+    }
+
+    Object.assign(link.style, {
+      left: `${left}px`,
+      top: `${top}px`,
+      width: `${width}px`,
+      height: `${height}px`
+    });
+  }
+
+  window.addEventListener("load", updateHotspot);
+  window.addEventListener("resize", updateHotspot);
+</script>
